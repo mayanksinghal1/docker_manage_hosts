@@ -1,0 +1,30 @@
+# This play creates a Docker image from a container
+#
+# Usage:
+#
+# - include_role:
+#     name: docker_call_api
+#     tasks_from: dkr_create_image
+#     vars:
+#       dkr_container:  <container name>
+#       dkr_image:      <image name>
+#       dkr_command     <entrypoint.sh>
+#       dkr_tag:        <tag>
+#
+---
+- name: Check Docker image exists
+  command: "docker images"
+  register: images
+
+- name: Create Docker image
+  block:
+    - name: "Getting the Docker container {{ dkr_container }} ID"
+      command: >
+        docker inspect --format \{\{' 'index' '.ID' '\}\} {{ dkr_container }}
+      register: dkr_id
+
+    - name: "Creating Docker Image: {{ dkr_container }}"
+      command: >
+        docker commit --change='CMD [{{ dkr_command | default("/entrypoint.sh") }}]' {{ dkr_id.stdout }} {{ dkr_image }}:{{ dkr_tag | default('latest') }}
+  when: images.stdout.find(dkr_image) == -1
+...

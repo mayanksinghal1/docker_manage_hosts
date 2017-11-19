@@ -1,0 +1,11 @@
+#
+#
+#
+#
+---
+- name: Delete Docker image
+  docker_image:
+    name: "{{ dkr_image }}"
+    state: absent
+    tag: "{{ dkr_tag | default(omit) }}"
+...

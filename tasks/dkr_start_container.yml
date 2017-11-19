@@ -1,0 +1,29 @@
+# This play starts a Docker container
+#
+# Usage:
+#
+#  - include_role:
+#      name: docker_call_api
+#      tasks_from: dkr_start_container
+#    vars:
+#      dkr_container: <name>
+#      dkr_image:     <image>
+#      dkr_hostname:  <hostname>
+#      dkr_ports:     <comma, seperated, ports>
+#      dkr_command:  "sleep infinity"
+---
+- name: Start up Docker container {{ dkr_container }}
+  docker_container:
+    name:     "{{ dkr_container }}"
+    image:    "{{ dkr_image }}"
+    hostname: "{{ dkr_hostname }}"
+    detach: yes
+    tty: yes
+    command: "{{ dkr_command | default('sleep infinity') }}"
+    state: started
+    exposed_ports: "[ {{ dkr_ports }} ]"
+    privileged: no
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/cache/yum:/var/cache/yum:rw
+...

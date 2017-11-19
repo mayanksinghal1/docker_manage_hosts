@@ -1,0 +1,20 @@
+# This play deletes a Docker container
+#
+# Usage:
+#
+#  - include_role:
+#      name: docker_call_api
+#      tasks_from: dkr_delete_container
+#    vars:
+#      dkr_container: <name>
+#      dkr_image:     <image>
+#
+---
+- name: Delete Docker container {{ dkr_container }}
+  become: yes
+  docker_container:
+    name:  "{{ dkr_container }}"
+    image: "{{ dkr_image }}"
+    state: absent
+    force_kill: true
+...

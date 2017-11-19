@@ -1,0 +1,37 @@
+---
+# This role tests the docker_call_api role
+- name: Set test values
+  set_fact:
+    dkr_container: "dkr_test"
+    dkr_image:     "centos:7"
+    dkr_new_image: "dkr_test"
+    dkr_hostname:  "dkr_test"
+    dkr_ports:     "80, 8080"
+    dkr_command:   "sleep infinity"
+    dkr_tag:       "1"
+
+- name: Start a Docker container
+  include_tasks: "dkr_start_container.yml"
+
+- name: Inspect Docker container
+  command: "docker inspect --format {% raw %}'{{ .NetworkSettings }}' {% endraw %} dkr_test"
+  register: results
+
+- name: Display container network settings
+  debug:
+    var: results.stdout
+
+- name: Create Docker image
+  include_tasks: "dkr_create_image.yml"
+  vars:
+    dkr_image:     "{{ dkr_new_image}}"
+
+- name: Delete Docker container
+  include_tasks: "dkr_delete_container.yml"
+
+- name: Delete Docker image
+  include_tasks: "dkr_delete_image.yml"
+  vars:
+    dkr_image: "{{ dkr_new_image }}"
+
+...
