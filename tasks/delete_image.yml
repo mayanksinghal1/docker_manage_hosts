@@ -1,7 +1,3 @@
-#
-#
-#
-#
 ---
 - name: Delete Docker image
   docker_image:

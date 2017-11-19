@@ -3,7 +3,7 @@
 # Usage:
 #
 #  - include_role:
-#      name: docker_call_api
+#      name: docker_manage_hosts
 #      tasks_from: dkr_delete_container
 #    vars:
 #      dkr_container: <name>

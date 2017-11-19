@@ -3,8 +3,8 @@
 # Usage:
 #
 # - include_role:
-#     name: docker_call_api
-#     tasks_from: dkr_create_image
+#     name: docker_manage_hosts
+#     tasks_from: create_image
 #     vars:
 #       dkr_container:  <container name>
 #       dkr_image:      <image name>
