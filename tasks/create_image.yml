@@ -1,16 +1,4 @@
-# This play creates a Docker image from a container
-#
-# Usage:
-#
-# - include_role:
-#     name: docker_manage_hosts
-#     tasks_from: create_image
-#     vars:
-#       dkr_container:  <container name>
-#       dkr_image:      <image name>
-#       dkr_command     <entrypoint.sh>
-#       dkr_tag:        <tag>
-#
+
 ---
 - name: Check Docker image exists
   command: "docker images"

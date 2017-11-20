@@ -1,0 +1,25 @@
+---
+- name: Start up Docker container {{ dkr_container }}
+  docker_container:
+    name:     "{{ item.key }}"
+    image:    "{{ dkr_image }}"
+    hostname: "{{ item.value.name }}"
+    detach: yes
+    tty: yes
+    command: "{{ dkr_command | default('sleep infinity') }}"
+    state: started
+    exposed_ports: "[ {{ item.value.ports }} ]"
+    privileged: no
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /var/cache/yum:/var/cache/yum:rw
+  with_dict: "{{ host_list }}"
+
+- name: Add container to inventory
+  add_host:
+    name: "{{ item.key }}"
+    groups: "{{ host_group }}"
+    ansible_connection: docker
+  with_dict: "{{ host_list }}"
+  changed_when: false
+...

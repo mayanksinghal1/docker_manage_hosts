@@ -1,36 +1,13 @@
 ---
-- name: Set test values
-  set_fact:
-    dkr_container: "dkr_test"
-    dkr_image:     "centos:7"
-    dkr_new_image: "dkr_test"
-    dkr_hostname:  "dkr_test"
-    dkr_ports:     "80, 8080"
-    dkr_command:   "sleep infinity"
-    dkr_tag:       "1"
+- name: Import Docker host variables
+  include_vars:
+    file: "{{ playbook_dir }}/docker_hosts.yml"
 
-- name: Start a Docker container
-  include_tasks: "start_container.yml"
-
-- name: Inspect Docker container
-  command: "docker inspect --format {% raw %}'{{ .NetworkSettings }}' {% endraw %} dkr_test"
-  register: results
-
-- name: Display container network settings
-  debug:
-    var: results.stdout
-
-- name: Create Docker image
-  include_tasks: "create_image.yml"
-  vars:
-    dkr_image:     "{{ dkr_new_image }}"
+- name: Start Docker container
+  include_tasks: "start_host.yml"
+  when: taskname == "start_host"
 
 - name: Delete Docker container
-  include_tasks: "delete_container.yml"
-
-- name: Delete Docker image
-  include_tasks: "delete_image.yml"
-  vars:
-    dkr_image: "{{ dkr_new_image }}"
-
+  include_tasks: "delete_host.yml"
+  when: taskname == "delete_host"
 ...
