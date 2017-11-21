@@ -1,5 +1,5 @@
 ---
-- name: Start up Docker container {{ dkr_container }}
+- name: Start up Docker container {{ item.key }}
   docker_container:
     name:     "{{ item.key }}"
     image:    "{{ dkr_image }}"
@@ -12,7 +12,6 @@
     privileged: no
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /var/cache/yum:/var/cache/yum:rw
   with_dict: "{{ host_list }}"
 
 - name: Add container to inventory
