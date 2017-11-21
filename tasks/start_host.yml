@@ -1,4 +1,17 @@
 ---
+- name: Check container exists
+  command: "docker ps"
+  changed_when: false
+  register: result
+
+- name: Delete existing {{ item.key }} container
+  become: yes
+  docker_container:
+    name:  "{{ item.key }}"
+    image: "{{ dkr_image }}"
+    state: absent
+    force_kill: true
+
 - name: Start up Docker container {{ item.key }}
   docker_container:
     name:     "{{ item.key }}"
@@ -12,13 +25,11 @@
     privileged: no
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  with_dict: "{{ host_list }}"
 
 - name: Add container to inventory
   add_host:
     name: "{{ item.key }}"
     groups: "{{ host_group }}"
     ansible_connection: docker
-  with_dict: "{{ host_list }}"
   changed_when: false
 ...

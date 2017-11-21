@@ -1,5 +1,5 @@
 ---
-- name: Delete Docker container {{ dkr_container }}
+- name: Delete Docker container {{ item.key }}
   become: yes
   docker_container:
     name:  "{{ item.key }}"

@@ -1,0 +1,29 @@
+---
+- name: Check {{ image_name }} exists
+  command: "docker images {{ image_name }}"
+  changed_when: false
+  register: result
+
+- name: Delete {{ image_name }}
+  docker_image:
+    name: "{{ image_name }}"
+    state: absent
+    force: yes
+    tag: "{{ image_tag | default(omit) }}"
+  when: result.stdout.find(image_name) != -1
+
+- name: Copy Dockerfile
+  copy:
+    src: "{{ dockerfile }}"
+    dest: "/tmp/Dockerfile"
+
+- name: Building Docker image {{ image_name }}
+  docker_image:
+    name: "{{ image_name }}"
+    tag:  "{{ image_tag }}"
+    path: "/tmp"
+
+- file:
+    path: "/tmp/Dockerfile"
+    state: absent
+...

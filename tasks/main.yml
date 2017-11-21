@@ -5,9 +5,14 @@
 
 - name: Start Docker container
   include_tasks: "start_host.yml"
+  with_dict: "{{ host_list }}"
   when: taskname == "start_host"
 
 - name: Delete Docker container
   include_tasks: "delete_host.yml"
   when: taskname == "delete_host"
+
+- name: Build Docker image
+  include_tasks: "build_dockerfile.yml"
+  when: taskname == "build_dockerfile"
 ...
