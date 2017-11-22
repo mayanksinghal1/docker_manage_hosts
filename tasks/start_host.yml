@@ -7,15 +7,15 @@
 - name: Delete existing {{ item.key }} container
   become: yes
   docker_container:
-    name:  "{{ item.key }}"
+    name: "{{ item.key }}"
     image: "{{ dkr_image }}"
     state: absent
     force_kill: true
 
 - name: Start up Docker container {{ item.key }}
   docker_container:
-    name:     "{{ item.key }}"
-    image:    "{{ dkr_image }}"
+    name: "{{ item.key }}"
+    image: "{{ dkr_image }}"
     hostname: "{{ item.value.name }}"
     detach: yes
     tty: yes

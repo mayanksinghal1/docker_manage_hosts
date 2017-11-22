@@ -1,0 +1,14 @@
+---
+host_type: "docker"
+host_group: "managed"
+
+host_list:
+  HostA:
+    name: "HostA"
+    ports: "80"
+
+tst_image: "centos:7"
+
+dkr_image: "{{ tst_image }}"
+dkr_command: "sleep infinity"
+...

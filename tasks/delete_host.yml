@@ -2,7 +2,7 @@
 - name: Delete Docker container {{ item.key }}
   become: yes
   docker_container:
-    name:  "{{ item.key }}"
+    name: "{{ item.key }}"
     image: "{{ dkr_image }}"
     state: absent
     force_kill: true

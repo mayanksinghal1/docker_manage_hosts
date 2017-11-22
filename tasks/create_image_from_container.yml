@@ -1,4 +1,3 @@
-
 ---
 - name: Check Docker image exists
   command: "docker images"

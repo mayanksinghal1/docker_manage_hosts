@@ -20,10 +20,11 @@
 - name: Building Docker image {{ image_name }}
   docker_image:
     name: "{{ image_name }}"
-    tag:  "{{ image_tag }}"
+    tag: "{{ image_tag }}"
     path: "/tmp"
 
-- file:
+- name: Remove Dockerfile
+  file:
     path: "/tmp/Dockerfile"
     state: absent
 ...

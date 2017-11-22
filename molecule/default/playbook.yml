@@ -1,16 +1,12 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    host_type: "docker"
   pre_tasks:
-    - name: Install EPEL
-      yum:
-        name: "epel-release"
-        state: present
-    - name: Install Pip and Docker
-      yum:
-        name: "python2-pip, docker"
-        state: present
-    - name: Install docker-py
-      command: "pip install docker-py"
+    - name: Install pre-requisites
+      include_tasks: "pre_requisites.yml"
   roles:
-    - role: docker_manage_hosts
+    - { role: docker_manage_hosts, taskname: "start_host", when: host_type == "docker" }
+    - { role: docker_manage_hosts, taskname: "delete_host" }
+...
