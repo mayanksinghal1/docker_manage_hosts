@@ -6,13 +6,21 @@
 - name: Start Docker container
   include_tasks: "start_host.yml"
   with_dict: "{{ host_list }}"
-  when: taskname == "start_host"
+  when: (taskname == "start_host") and (taskname is defined)
+
+- name: Create Docker image from container
+  include_tasks: "create_image_from_container.yml"
+  when: (taskname == "create_image_from_host") and (taskname is defined)
 
 - name: Delete Docker container
   include_tasks: "delete_host.yml"
-  when: taskname == "delete_host"
+  when: (taskname == "delete_host") and (taskname is defined)
 
 - name: Build Docker image
   include_tasks: "build_dockerfile.yml"
-  when: taskname == "build_dockerfile"
+  when: (taskname == "build_dockerfile") and (taskname is defined)
+
+- name: Delete Docker image
+  include_tasks: "delete_image.yml"
+  when: (taskname == "delete_image") and (taskname is defined)
 ...
