@@ -9,4 +9,6 @@
   roles:
     - { role: docker_manage_hosts, taskname: "start_host", when: host_type == "docker" }
     - { role: docker_manage_hosts, taskname: "delete_host" }
+    - { role: docker_manage_hosts, taskname: "build_dockerfile", image_name: "c7-systemd", image_tag: "1", dockerfile: "dockerfile.c7-systemd" }
+    - { role: docker_manage_hosts, taskname: "delete_image", dkr_image: "c7-systemd:1" }
 ...
