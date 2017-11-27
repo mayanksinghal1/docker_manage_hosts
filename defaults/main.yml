@@ -1,0 +1,4 @@
+---
+dkr_volumes:
+  - /sys/fs/cgroup:/sys/fs/cgroup:ro
+...
