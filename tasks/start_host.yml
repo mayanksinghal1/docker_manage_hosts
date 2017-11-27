@@ -25,6 +25,8 @@
     privileged: no
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - /etc/pki/consumer:/etc/pki/consumer:ro
+      - /etc/pki/entitlement:/etc/pki/entitlement:ro
 
 - name: Add container to inventory
   add_host:
@@ -32,4 +34,10 @@
     groups: "{{ host_group }}"
     ansible_connection: docker
   changed_when: false
-...
+
+- name: install sudo
+  delegate_to: "{{ item.key }}"
+  raw: test -e /bin/sudo || (yum install sudo -y)
+  when: (dkr_image | search("rhel")) or
+        (dkr_image | search("centos")) or
+        (dkr_image | search("fedora"))
