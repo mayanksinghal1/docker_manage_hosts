@@ -23,11 +23,7 @@
     state: started
     exposed_ports: "[ {{ item.value.ports }} ]"
     privileged: "{{ dkr_privilege | default('no') }}"
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-      - /etc/pki/consumer:/etc/pki/consumer:ro
-      - /etc/pki/entitlement:/etc/pki/entitlement:ro
-#    volumes: "{{ dkr_volumes | default(omit) }}"
+    volumes: "{{ dkr_volumes }}"
 
 - name: Add container to inventory
   add_host:

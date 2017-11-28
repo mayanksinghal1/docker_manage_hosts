@@ -1,4 +1,6 @@
 ---
 dkr_volumes:
   - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - /etc/pki/consumer:/etc/pki/consumer:ro
+  - /etc/pki/entitlement:/etc/pki/entitlement:ro
 ...
