@@ -22,11 +22,12 @@
     command: "{{ dkr_command | default('sleep infinity') }}"
     state: started
     exposed_ports: "[ {{ item.value.ports }} ]"
-    privileged: no
+    privileged: "{{ dkr_privilege | default('no') }}"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
       - /etc/pki/consumer:/etc/pki/consumer:ro
       - /etc/pki/entitlement:/etc/pki/entitlement:ro
+#    volumes: "{{ dkr_volumes | default(omit) }}"
 
 - name: Add container to inventory
   add_host:
