@@ -1,7 +1,7 @@
 ---
-- name: Import Docker host variables
-  include_vars:
-    file: "{{ playbook_dir }}/docker_hosts.yml"
+#- name: Import Docker host variables
+#  include_vars:
+#    file: "{{ playbook_dir }}/docker_hosts.yml"
 
 - name: Start Docker container
   include_tasks: "start_host.yml"
